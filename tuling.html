@@ -14,7 +14,13 @@
         .blockMis{
             width: 94%;
             margin: 3%;
+            height: 65%;
             text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .mesList{
+            height: auto;
         }
         .tip{
             margin: 5px auto;
@@ -26,7 +32,6 @@
             font-size: 1.1em;
             color: rgba(255,255,255,.6);
             text-align: left;
-            height: 100%;
             position:relative;
             margin: 15px 0 15px 20px;
         }
@@ -56,47 +61,98 @@
             color: rgba(255,255,255,.6);
             text-align: right;
             position: relative;
+            margin: 15px 20px 15px 0;
         }
         .postItem .con{
             background-color: #2D9FDB;
+            text-align: left;
         }
         .postItem .arrow{
-            background-color: #2D9FDB;
             border:8px solid #2D9FDB;
             border-color:transparent transparent transparent #2D9FDB;
             right:-16px;
+            left: auto;
+        }
+        .misInput{
+            width: 94%;
+            height: 20%;
+            padding: 1%;
+            margin: 2%;
+            border: 2px solid rgba(0,0,0,.2);
+            border-radius: 3px;
+            font-size: 1.1em;
         }
     </style>
 </hade>
 <body>
     <div class="mis">
         <div class="blockMis">
-            <span class="tip">输入你想知道的信息就可以了，如：武汉天气</span>
-            <div class="misItem">
-                <div class="con">314544</div>
-                <div class="arrow"></div>
-            </div>
-            <div class="misItem">
-                <div class="con">314541648964641641648956496848964987489798897498748974869416516516518918941986516581819819861986198498469846849684698468948498646984986498498498498489484898964</div>
-                <div class="arrow"></div>
-            </div>
-            <div class="misItem">
-                <div class="con">314544</div>
-                <div class="arrow"></div>
-            </div>
-            <div class="misItem">
-                <div class="con">314544</div>
-                <div class="arrow"></div>
-            </div>
-            <div class="misItem">
-                <div class="con">314544</div>
-                <div class="arrow"></div>
-            </div>
-            <div class="postItem">
-                <div class="con">314544</div>
-                <div class="arrow"></div>
+            <div class="mesList">
+                <span class="tip">输入你想知道的信息就可以了，如：武汉天气</span>
             </div>
         </div>
+        <textarea class="misInput"></textarea>
     </div>
+    <script>
+//      window.onload = function(){
+
+
+            var mesBox = document.getElementsByClassName('blockMis')[0];
+            var mesList = document.getElementsByClassName('mesList')[0];
+            var mesInput = document.getElementsByClassName('misInput')[0];
+
+            // 控制消息的scrolltop
+            function scrollMes (){
+                var mesBoxTop = mesBox.clientHeight;
+                var mesListTop = mesList.clientHeight;
+                var showTop = mesListTop - mesBoxTop + 15;
+                if(showTop > 0){mesBox.scrollTop = showTop};
+            }
+            function ajax(url){
+                var xmlHttp = '';
+                window.ActiveXObject?xmlHttp=new ActiveXObject("Microsoft.XMLHTTP"):xmlHttp=new XMLHttpRequest();
+                xmlHttp.open("GET",url);
+                xmlHttp.send(null);
+                xmlHttp.onreadystatechange=function(){
+                    if(xmlHttp.readyState==4&&xmlHttp.status==200){
+                        var _data = xmlHttp.responseText;
+                        var data = JSON.parse(_data);
+                        // var data = {"code":100000,"text":"很可爱的城市有机会带你去旅游。"};
+                        var text = data.text;
+                        console.log(data);
+                        var _replyMesHTML ='<div class="misItem"><div class="con">'+text+'</div><div class="arrow"></div></div>';
+                        var _para=document.createElement("div");
+                        _para.innerHTML = _replyMesHTML;
+                        mesList.appendChild(_para);
+                        scrollMes ();
+                    }else{
+                        console.log(xmlHttp.status);
+                    }
+                }
+            };
+
+            mesInput.onblur = function (){
+                // 判断输入框是否为空，不为空才执行操作
+                if(mesInput.value !== ''){
+                    // 添加html等操作
+                    var _inpMesHTML = '<div class="postItem"><div class="con">'+mesInput.value+'</div><div class="arrow"></div></div>';
+
+                    var para=document.createElement("div");
+                    para.innerHTML = _inpMesHTML;
+                    mesList.appendChild(para);
+
+                    // 控制消息的scrolltop
+                    scrollMes ();
+
+                    // 利用AJAX传输数据
+
+                    var key = 'eb31a846981078b2b66faf1f5130fb70';
+                    var word = mesInput.value;
+                    ajax('http://www.tuling123.com/openapi/api?key='+key+'&info='+word);
+                    mesInput.value = '';
+                };
+            };
+//      }
+    </script>
 </body>
 </html>
