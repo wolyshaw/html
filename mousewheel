@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>鼠标滚动事件</title>
+    <style media="screen">
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        height: 1200px;
+      }
+      .nav{
+        height: 50px;
+        width: 100%;
+        background-color: rgba(0,0,0,.3);
+        position: fixed;
+        top: 0px;
+        left: 0;
+        transition: top ease .6s;
+      }
+      .untop{
+        top: -50px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+
+    </nav>
+  <script type="text/javascript">
+    var mouseBlockAndNone = function (e) {
+
+      e = e || window.event;
+
+      var mouseUpAndDown = function (up) {
+
+        if(up){
+          // up
+          document.querySelector('.nav').classList.remove('untop')
+        }else{
+          // down
+          document.querySelector('.nav').classList.add('untop')
+        }
+
+      }
+
+      if(e.wheelDelta){
+
+        if(e.wheelDelta > 0){
+
+          mouseUpAndDown(true);
+
+        } else if(e.wheelDelta < 0){
+
+          mouseUpAndDown(false);
+
+        }
+
+      } else if (e.detail) {
+        // firofox 数值是反的
+        if(e.detail > 0){
+
+          mouseUpAndDown(false);
+
+        } else if(e.detail < 0){
+
+          mouseUpAndDown(true);
+
+        }
+
+      }
+
+    }
+
+    document.addEventListener('DOMMouseScroll', mouseBlockAndNone, false);
+    document.addEventListener('mousewheel', mouseBlockAndNone, false);
+  </script>
+  </body>
+</html>
