@@ -1,0 +1,22 @@
+{
+  "name": "html",
+  "version": "1.0.0",
+  "description": "html demo ###托管html小页面的代码",
+  "main": "index.js",
+  "scripts": {
+    "html": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wolyshaw/html.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wolyshaw/html/issues"
+  },
+  "homepage": "https://github.com/wolyshaw/html#readme",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}
