@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/wolyshaw/html#readme",
   "dependencies": {
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "html-webpack-plugin": "^2.28.0",
+    "webpack": "^2.2.1"
   }
 }
